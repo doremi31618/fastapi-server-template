@@ -35,7 +35,19 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 uv run python main.py
 ```
 
-### 4. 驗證安裝
+### 4. 啟動 Streamlit 前端
+
+```bash
+# 使用 Makefile 啟動（預設連線至 http://127.0.0.1:8000）
+make streamlit
+
+# 或直接使用 uv / streamlit 指令
+FASTAPI_BASE_URL=http://127.0.0.1:8000 uv run streamlit run frontend/main.py
+```
+
+Streamlit 預設於 http://localhost:8501 提供 UI，可透過側邊欄調整後端位址。
+
+### 5. 驗證安裝
 
 訪問 http://localhost:8000/docs 查看 API 文檔
 
@@ -47,6 +59,14 @@ uv run python main.py
 - 🧪 **測試友好**: 完整的單元測試和 API 測試架構
 - ⚡ **高效能**: 基於 FastAPI 和 SQLAlchemy
 - 🔧 **開發工具**: 整合 uv 包管理器
+
+## 前端（Streamlit）
+
+- 入口檔案：`frontend/main.py`，提供基本健康檢查與即席 API 測試工具。
+- 設定檔：`frontend/.streamlit/config.toml`，預設監聽 `0.0.0.0:8501` 並採用深色主題。
+- 環境參數：使用 `FASTAPI_BASE_URL` 指定後端 API（預設 `http://127.0.0.1:8000`）。
+- 開發指令：`make streamlit` 會以 uv 執行 `streamlit run` 並自動帶入後端位址。
+- 擴充方式：依 Streamlit 約定可新增 `frontend/pages/` 以拆分多頁面。
 
 ## 開發指南
 
@@ -207,7 +227,11 @@ app/
 │    │  ├─ repositories.py        # SqlUserRepo 實作 UserRepository
 │    │  └─ token_jwt.py           # JwtTokenService 實作 TokenService
 │    └─ deps.py                   # 本模組依賴注入（get_auth_service）
-│  
+│
+├─ frontend/                       # Streamlit 前端入口與設定
+│  ├─ main.py                      # Streamlit UI（健康檢查 + API 測試）
+│  └─ .streamlit/
+│     └─ config.toml               # Streamlit 伺服器與主題設定
 │
 └─ tests/                          # 測試
    ├─ unit/                        # Service/Domain 單元測試（注入 fake ports）
