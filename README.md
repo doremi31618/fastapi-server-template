@@ -68,6 +68,14 @@ Streamlit 預設於 http://localhost:8501 提供 UI，可透過側邊欄調整�
 - 開發指令：`make streamlit` 會以 uv 執行 `streamlit run` 並自動帶入後端位址。
 - 擴充方式：依 Streamlit 約定可新增 `frontend/pages/` 以拆分多頁面。
 
+## Labs 實驗區
+
+- Lab 目錄集中於 `labs/`，僅存放尚未產品化的研究、PoC 與數據。
+- 使用 `make lab name=ocr title="OCR Pipeline"` 自動建立實驗骨架與對應的 Streamlit 頁面（於 `ui/streamlit/pages/`）。
+- 產生 Spike 腳本：`make lab-spike name=ocr title="Test pytesseract"`，會在 `labs/ocr/spikes/` 下建立模板。
+- 啟動 Labs 專用 UI：`make labs-ui`（預設埠 8502），從 Streamlit 多頁模式瀏覽所有 Lab 頁面。
+- 實驗額外依賴請使用 `uv sync -E labs-ocr` 等 optional dependency groups 安裝。
+
 ## 開發指南
 
 ### 依賴管理
@@ -78,6 +86,9 @@ uv add package-name
 
 # 新增開發依賴
 uv add --dev package-name
+
+# 安裝 Labs 實驗依賴（以 OCR 為例）
+uv sync -E labs-ocr
 
 # 更新依賴
 uv sync --upgrade
@@ -227,6 +238,20 @@ app/
 │    │  ├─ repositories.py        # SqlUserRepo 實作 UserRepository
 │    │  └─ token_jwt.py           # JwtTokenService 實作 TokenService
 │    └─ deps.py                   # 本模組依賴注入（get_auth_service）
+│
+├─ labs/                           # 實驗區（未產品化研究）
+│  └─ ocr/
+│     ├─ README.md                # 實驗目標、假設、下一步
+│     ├─ prototype/               # 可重複 PoC，供 Streamlit 或腳本呼叫
+│     ├─ spikes/                  # Spike 腳本（make lab-spike）
+│     ├─ notebooks/               # 互動式研究
+│     ├─ docs/                    # 觀察筆記與風險整理
+│     └─ data/                    # 小型示例資料（.gitkeep）
+│
+├─ ui/streamlit/                  # Labs 專用 Streamlit 入口
+│  ├─ main.py                     # Labs 多頁入口（make labs-ui）
+│  └─ pages/
+│     └─ 90_Labs_OCR.py          # OCR Lab 的實驗頁（可擴充）
 │
 ├─ frontend/                       # Streamlit 前端入口與設定
 │  ├─ main.py                      # Streamlit UI（健康檢查 + API 測試）

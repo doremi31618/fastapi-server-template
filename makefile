@@ -25,6 +25,7 @@ FRONTEND_APP  := frontend/main.py
 FRONTEND_HOST := 0.0.0.0
 FRONTEND_PORT := 8501
 FASTAPI_BASE_URL := http://$(HOST):$(PORT)
+LABS_PORT := 8502
 
 # ---- 便利函式 ----
 define assert_nonempty
@@ -32,7 +33,7 @@ define assert_nonempty
 endef
 
 # ---- 假目標宣告 ----
-.PHONY: help init perms run dev serve streamlit docs openapi test lint fmt module spec release remove-module remove-spec clean
+.PHONY: help init perms run dev serve streamlit labs-ui docs openapi test lint fmt module lab lab-spike spec release remove-module remove-spec clean
 
 ## help: 顯示所有可用指令
 help:
@@ -59,6 +60,10 @@ run:
 ## streamlit: 啟動 Streamlit 前端（預設連線到本機 FastAPI）
 streamlit:
 	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run $(FRONTEND_APP) --server.address $(FRONTEND_HOST) --server.port $(FRONTEND_PORT)
+
+## labs-ui: 啟動 Labs Streamlit App（載入 ui/streamlit/pages/）
+labs-ui:
+	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run ui/streamlit/main.py --server.address $(FRONTEND_HOST) --server.port $(LABS_PORT)
 
 ## dev: 使用 fastapi CLI 啟動（若已安裝 fastapi[standard]）
 dev: serve
@@ -88,6 +93,17 @@ fmt:
 module:
 	$(call assert_nonempty,name,"make module name=<module>")
 	bash scripts/new_module.sh $(name)
+
+## lab: 建立新的 Lab 實驗空間（name=<lab> [title="..."]）
+lab:
+	$(call assert_nonempty,name,"make lab name=<lab> [title=\"...\"]")
+	bash scripts/new_lab.sh $(name) $(if $(title),"$(title)",)
+
+## lab-spike: 在指定 Lab 建立 spike 腳本（name=<lab> title="..."）
+lab-spike:
+	$(call assert_nonempty,name,"make lab-spike name=<lab> title=\"...\"")
+	$(call assert_nonempty,title,"make lab-spike name=<lab> title=\"...\"")
+	bash scripts/new_spike.sh labs/$(name)/spikes "$(title)"
 
 ## spec: 新增規格檔（title="..." module=<mod> [bump=patch|minor|major]）
 spec:

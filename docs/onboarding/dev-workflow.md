@@ -22,6 +22,9 @@ specs-map.yaml     # app 版號 ↔ 各 SPEC 版號對應
 make init	一次性初始化（設定腳本 + 建 docs 基礎）	make init
 make dev / make run	啟動開發伺服器（FastAPI）	make dev
 make streamlit	啟動 Streamlit 前端 UI（預設指向本機 FastAPI）	make streamlit
+make labs-ui	啟動 Labs Streamlit 入口（載入 ui/streamlit/pages/）	make labs-ui
+make lab name=<lab>	建立 Labs 實驗骨架	make lab name=ocr title="OCR Pipeline"
+make lab-spike name=<lab> title="..."	在指定 Lab 新增 spike 腳本	make lab-spike name=ocr title="Test pytesseract"
 make docs	產生/更新 docs/api-reference/openapi.json	make docs
 make module name=<mod>	建模組骨架 + 掛路由	make module name=billing
 `make spec title=”…” module= [bump=patch	minor	major]`
@@ -75,6 +78,26 @@ make docs
 
 
 	•	會更新 docs/api-reference/openapi.json，供前端/第三方參考。
+
+F. Labs 研究流程（尚未產品化的實驗）
+	1.	建立 Lab 骨架：
+
+make lab name=ocr title="OCR Pipeline"
+
+
+	2.	安裝必要依賴（依 Lab 選擇 optional group）：
+
+uv sync -E labs-ocr
+
+
+	3.	於 `labs/<lab>/spikes/` 內新增驗證腳本：
+
+make lab-spike name=ocr title="Test pytesseract"
+
+
+	4.	將可重複的邏輯整理到 `labs/<lab>/prototype/`，並透過 `make labs-ui` 中的 Streamlit 頁面呈現。
+	5.	實驗數據與觀察記錄於 `docs/system-design/benchmarks/` 與 `docs/rfc/`，作為是否產品化的依據。
+	6.	通過審查後，再回到 SPEC 與 app/modules/ 完成正式實作。
 
 ⸻
 

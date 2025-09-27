@@ -8,6 +8,8 @@ mkdir -p app/api/v1
 mkdir -p app/modules/auth/domain
 mkdir -p app/modules/auth/infra
 mkdir -p frontend/.streamlit
+mkdir -p labs
+mkdir -p ui/streamlit/pages
 
 # Create main application files
 touch app/main.py
@@ -55,6 +57,28 @@ headless = true
 runOnSave = true
 address = "0.0.0.0"
 port = 8501
+EOF
+fi
+
+if [ ! -f labs/README.md ]; then
+cat > labs/README.md <<'EOF'
+# Labs Workspace
+
+此目錄儲存尚未產品化的實驗專案。建立新 Lab：
+
+# make lab name=example title="Example Lab"
+
+詳情請參考專案 README。
+EOF
+fi
+
+if [ ! -f ui/streamlit/main.py ]; then
+cat > ui/streamlit/main.py <<'EOF'
+import streamlit as st
+
+st.set_page_config(page_title="Labs Portal")
+st.title("Labs Portal")
+st.write("此檔案由 init_project.sh 產生，請以專案中的版本為準。")
 EOF
 fi
 

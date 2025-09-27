@@ -13,3 +13,12 @@ dependencies = [
     "sqlmodel>=0.0.25",
     "streamlit>=1.39.0",
 ]
+
+[project.optional-dependencies]
+labs-ocr = [
+    "pytesseract>=0.3.10",
+    "opencv-python>=4.10.0",
+    "numpy>=1.26.0",
+    "pillow>=10.4.0",
+    "pandas>=2.2.0",
+]
