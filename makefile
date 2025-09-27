@@ -103,7 +103,8 @@ lab:
 lab-spike:
 	$(call assert_nonempty,name,"make lab-spike name=<lab> title=\"...\"")
 	$(call assert_nonempty,title,"make lab-spike name=<lab> title=\"...\"")
-	bash scripts/new_spike.sh labs/$(name)/spikes "$(title)"
+	LAB_DIR=$$(echo $(name) | tr '[:upper:]' '[:lower:]' | tr '_' '-') && \
+	bash scripts/new_spike.sh labs/$$LAB_DIR/spikes "$(title)"
 
 ## spec: 新增規格檔（title="..." module=<mod> [bump=patch|minor|major]）
 spec:

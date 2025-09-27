@@ -28,3 +28,9 @@ labs/ocr/
 ```
 
 並在 `ui/streamlit/pages/` 下建立對應的實驗頁面範本，方便使用 Streamlit 驗證概念。
+
+### Spike 是什麼？
+
+- Spike 放在 `labs/<lab>/spikes/`，以單一腳本快速驗證概念、量測效能或測試外部套件。
+- 不需整理成完整模組；驗證成功後，再把穩定的邏輯抽成 `prototype/` 供重用。
+- 建議透過 `make lab-spike name=<lab> title="My Spike"` 產生模板，保持結構一致。

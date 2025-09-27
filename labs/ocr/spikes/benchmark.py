@@ -6,8 +6,6 @@ import time
 from pathlib import Path
 from typing import Iterable
 
-from PIL import Image
-
 from labs.ocr.prototype.ocr_basic import run_ocr
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -38,7 +36,7 @@ def main() -> None:
     output = {"model": "pytesseract", "results": results}
     target = OUTPUT_DIR / "ocr-baseline.json"
     target.write_text(json.dumps(output, indent=2), encoding="utf-8")
-    print(f"✅ Benchmark written to {target.relative_to(ROOT)}")
+    print(f"Benchmark written to {target.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

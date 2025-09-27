@@ -8,8 +8,8 @@ import streamlit as st
 
 PAGES_DIR = pathlib.Path(__file__).resolve().parent / "pages"
 
-st.set_page_config(page_title="Labs Portal", page_icon="🧪", layout="wide")
-st.title("🧪 Labs Portal")
+st.set_page_config(page_title="Labs Portal", layout="wide")
+st.title("Labs Portal")
 st.caption("集中管理所有 labs/ 實驗頁，視作內部研究入口。")
 
 st.markdown(

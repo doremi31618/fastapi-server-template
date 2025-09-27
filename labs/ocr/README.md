@@ -10,7 +10,7 @@
 ## 目錄對應
 
 - `notebooks/`：Jupyter 筆記或互動實驗。
-- `spikes/`：短期驗證腳本或 CLI 原型。
+- `spikes/`：短期驗證腳本或 CLI 原型，用來快速試驗概念；成功後再將穩定邏輯抽到 `prototype/`。
 - `prototype/`：可供他人重複操作的函式與 PoC。
 - `docs/`：實驗紀錄、觀察結果。
 - `data/`：小型示例資料（確保 .gitignore 遮蔽私密檔）。

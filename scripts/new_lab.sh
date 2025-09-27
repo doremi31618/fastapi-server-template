@@ -12,7 +12,7 @@ RAW_NAME="$1"
 RAW_TITLE="${2:-}"
 
 if [[ ! "$RAW_NAME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-  echo "❌ lab-name must be alphanumeric with optional hyphen/underscore." >&2
+  echo "lab-name must be alphanumeric with optional hyphen/underscore." >&2
   exit 1
 fi
 
@@ -31,19 +31,19 @@ STREAMLIT_SUFFIX=$(echo "$TITLE" | tr '[:lower:]' '[:upper:]' | sed -E 's/[^A-Z0
 STREAMLIT_PAGE="${PAGES_DIR}/90_Labs_${STREAMLIT_SUFFIX}.py"
 
 if [[ -d "$LAB_DIR" ]]; then
-  echo "❌ Lab already exists: $LAB_DIR" >&2
+  echo "Lab already exists: $LAB_DIR" >&2
   exit 1
 fi
 
 mkdir -p "$LAB_DIR"/{docs,data,notebooks,prototype,spikes}
+touch "$LAB_DIR"/__init__.py
 
 cat > "${LAB_DIR}/README.md" <<MD
 # Lab: ${TITLE}
 
 此 Lab 用於研究「${TITLE}」，尚未進入正式後端模組。請維持以下慣例：
 
-- 在 \
-`docs/` 紀錄假設、觀察、風險。
+- 在 `docs/` 紀錄假設、觀察、風險。
 - 將練習腳本放入 `spikes/`，可使用 `make lab-spike name=${SLUG} title="My Spike"` 自動生成。
 - 可重複的 PoC/函式整理到 `prototype/`，供 Streamlit 或其他工具呼叫。
 - 小型示例資料放 `data/`，避免存放真實/敏感資料。
@@ -76,8 +76,8 @@ import streamlit as st
 
 from labs.${SLUG}.prototype import placeholder
 
-st.set_page_config(page_title="Labs: ${TITLE}", page_icon="🧪", layout="wide")
-st.title("🧪 Labs: ${TITLE}")
+st.set_page_config(page_title="Labs: ${TITLE}", layout="wide")
+st.title("Labs: ${TITLE}")
 st.caption("此頁面僅供內部實驗使用，尚未對外提供 API。")
 
 st.write("請在 `labs/${SLUG}/prototype/` 內撰寫可重複的實驗函式並於此處呼叫。")
@@ -94,5 +94,5 @@ else:
     st.info("調整 prototype.placeholder 後，可在此檢視結果。")
 PY
 
-echo "✅ Lab created: ${LAB_DIR}"
-echo "✅ Streamlit page: ${STREAMLIT_PAGE}"
+echo "Lab created: ${LAB_DIR}"
+echo "Streamlit page: ${STREAMLIT_PAGE}"

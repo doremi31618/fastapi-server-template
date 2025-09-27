@@ -36,4 +36,4 @@ if __name__ == "__main__":
     main()
 PY
 
-echo "✅ Spike created: $FILE_PATH"
+echo "Spike created: $FILE_PATH"

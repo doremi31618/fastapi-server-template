@@ -73,6 +73,7 @@ Streamlit 預設於 http://localhost:8501 提供 UI，可透過側邊欄調整�
 - Lab 目錄集中於 `labs/`，僅存放尚未產品化的研究、PoC 與數據。
 - 使用 `make lab name=ocr title="OCR Pipeline"` 自動建立實驗骨架與對應的 Streamlit 頁面（於 `ui/streamlit/pages/`）。
 - 產生 Spike 腳本：`make lab-spike name=ocr title="Test pytesseract"`，會在 `labs/ocr/spikes/` 下建立模板。
+- Spike 檔案是一次性驗證腳本，用於快速試驗概念；完成後可將穩定做法萃取到 `prototype/`。
 - 啟動 Labs 專用 UI：`make labs-ui`（預設埠 8502），從 Streamlit 多頁模式瀏覽所有 Lab 頁面。
 - 實驗額外依賴請使用 `uv sync -E labs-ocr` 等 optional dependency groups 安裝。
 

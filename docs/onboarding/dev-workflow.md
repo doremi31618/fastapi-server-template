@@ -25,6 +25,7 @@ make streamlit	啟動 Streamlit 前端 UI（預設指向本機 FastAPI）	make s
 make labs-ui	啟動 Labs Streamlit 入口（載入 ui/streamlit/pages/）	make labs-ui
 make lab name=<lab>	建立 Labs 實驗骨架	make lab name=ocr title="OCR Pipeline"
 make lab-spike name=<lab> title="..."	在指定 Lab 新增 spike 腳本	make lab-spike name=ocr title="Test pytesseract"
+（Spike：短期驗證腳本，快速驗證概念；成功後將共用邏輯搬到 prototype/）
 make docs	產生/更新 docs/api-reference/openapi.json	make docs
 make module name=<mod>	建模組骨架 + 掛路由	make module name=billing
 `make spec title=”…” module= [bump=patch	minor	major]`
