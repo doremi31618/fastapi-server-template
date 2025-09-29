@@ -21,11 +21,12 @@ UV        := uv run
 APP_ENTRY := app/main.py
 HOST      := 127.0.0.1
 PORT      := 8000
-FRONTEND_APP  := frontend/main.py
-FRONTEND_HOST := 0.0.0.0
-FRONTEND_PORT := 8501
+APP_STREAMLIT_ENTRY := streamlit_app/main.py
+APP_STREAMLIT_HOST  := 0.0.0.0
+APP_STREAMLIT_PORT  := 8501
 FASTAPI_BASE_URL := http://$(HOST):$(PORT)
-LABS_PORT := 8502
+LABS_PORTAL_ENTRY := labs_portal/main.py
+LABS_PORTAL_PORT  := 8502
 
 # ---- 便利函式 ----
 define assert_nonempty
@@ -59,11 +60,11 @@ run:
 
 ## streamlit: 啟動 Streamlit 前端（預設連線到本機 FastAPI）
 streamlit:
-	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run $(FRONTEND_APP) --server.address $(FRONTEND_HOST) --server.port $(FRONTEND_PORT)
+	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run $(APP_STREAMLIT_ENTRY) --server.address $(APP_STREAMLIT_HOST) --server.port $(APP_STREAMLIT_PORT)
 
-## labs-ui: 啟動 Labs Streamlit App（載入 ui/streamlit/pages/）
+## labs-ui: 啟動 Labs Streamlit App（載入 labs_portal/pages/）
 labs-ui:
-	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run ui/streamlit/main.py --server.address $(FRONTEND_HOST) --server.port $(LABS_PORT)
+	FASTAPI_BASE_URL=$(FASTAPI_BASE_URL) $(UV) streamlit run $(LABS_PORTAL_ENTRY) --server.address $(APP_STREAMLIT_HOST) --server.port $(LABS_PORTAL_PORT)
 
 ## dev: 使用 fastapi CLI 啟動（若已安裝 fastapi[standard]）
 dev: serve

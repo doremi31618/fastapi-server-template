@@ -3,6 +3,8 @@
 
 開發工作流程與 Makefile 使用指南
 
+開始前請先閱讀 `docs/onboarding/coding-standards.md`，掌握專案的 Clean Architecture 與 Code Review 規範。
+
 0) 目錄約定與腳本位置
 
 app/               # 程式碼（FastAPI）
@@ -22,7 +24,7 @@ specs-map.yaml     # app 版號 ↔ 各 SPEC 版號對應
 make init	一次性初始化（設定腳本 + 建 docs 基礎）	make init
 make dev / make run	啟動開發伺服器（FastAPI）	make dev
 make streamlit	啟動 Streamlit 前端 UI（預設指向本機 FastAPI）	make streamlit
-make labs-ui	啟動 Labs Streamlit 入口（載入 ui/streamlit/pages/）	make labs-ui
+make labs-ui	啟動 Labs Streamlit 入口（載入 labs_portal/pages/）	make labs-ui
 make lab name=<lab>	建立 Labs 實驗骨架	make lab name=ocr title="OCR Pipeline"
 make lab-spike name=<lab> title="..."	在指定 Lab 新增 spike 腳本	make lab-spike name=ocr title="Test pytesseract"
 （Spike：短期驗證腳本，快速驗證概念；成功後將共用邏輯搬到 prototype/）
@@ -68,7 +70,7 @@ D. 建立 / 更新 Streamlit UI
 make streamlit
 
 
-	2.	預設入口為 `frontend/main.py`，可依需求拆分 `frontend/pages/`。
+	2.	預設入口為 `streamlit_app/main.py`，可依需求拆分 `streamlit_app/pages/`。
 	3.	透過側邊欄或環境變數 `FASTAPI_BASE_URL` 指向後端（預設 http://127.0.0.1:8000）。
 	4.	新增元件時建議將後端呼叫封裝成函式，方便重用與測試。
 
@@ -88,7 +90,7 @@ make lab name=ocr title="OCR Pipeline"
 
 	2.	安裝必要依賴（依 Lab 選擇 optional group）：
 
-uv sync -E labs-ocr
+uv add --group "group name" package
 
 
 	3.	於 `labs/<lab>/spikes/` 內新增驗證腳本：
@@ -96,9 +98,13 @@ uv sync -E labs-ocr
 make lab-spike name=ocr title="Test pytesseract"
 
 
-	4.	將可重複的邏輯整理到 `labs/<lab>/prototype/`，並透過 `make labs-ui` 中的 Streamlit 頁面呈現。
-	5.	實驗數據與觀察記錄於 `docs/system-design/benchmarks/` 與 `docs/rfc/`，作為是否產品化的依據。
-	6.	通過審查後，再回到 SPEC 與 app/modules/ 完成正式實作。
+	4.	啟動 Labs Portal：`make labs-ui`，於 http://localhost:8502 互動式驗證實驗成果。
+	5.	將可重複的邏輯整理到 `labs/<lab>/prototype/`，並由 Labs Portal 分頁載入。
+	6.	撰寫/更新文件：
+		•	研究筆記放在 `labs/<lab>/docs/`（Markdown）。
+		•	量測或性能數據放在 `docs/system-design/benchmarks/`，建議 JSON/Markdown 描述結果與結論。
+		•	涉及產品化決策時，補充 `docs/rfc/` 與草稿 SPEC（`docs/specs/`）。
+	7.	通過審查後，再回到 SPEC 與 app/modules/ 完成正式實作並更新 mapping/OpenAPI。
 
 ⸻
 

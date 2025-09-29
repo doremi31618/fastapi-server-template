@@ -212,7 +212,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-frontend/.streamlit/secrets.toml
+streamlit_app/.streamlit/secrets.toml
 labs/*/data/*
 !labs/*/data/.gitkeep
 labs/*/notebooks/.ipynb_checkpoints/

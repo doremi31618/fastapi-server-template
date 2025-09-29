@@ -25,7 +25,7 @@ fi
 TITLE=$(echo "$RAW_TITLE" | awk '{for(i=1;i<=NF;i++){sub(".",toupper(substr($i,1,1))substr($i,2),$i)}; print}')
 
 LAB_DIR="labs/${SLUG}"
-PAGES_DIR="ui/streamlit/pages"
+PAGES_DIR="labs_portal/pages"
 STREAMLIT_SUFFIX=$(echo "$TITLE" | tr '[:lower:]' '[:upper:]' | sed -E 's/[^A-Z0-9]+/_/g;s/^_+//;s/_+$//')
 [[ -z "$STREAMLIT_SUFFIX" ]] && STREAMLIT_SUFFIX="LAB"
 STREAMLIT_PAGE="${PAGES_DIR}/90_Labs_${STREAMLIT_SUFFIX}.py"

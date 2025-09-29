@@ -99,5 +99,5 @@ if submitted:
         st.error(f"請求失敗: {exc}")
 
 st.info(
-    "✅ 建議做法：在 `frontend/` 目錄新增頁面或元件，將此範例擴充成完整 UI。"
+    "建議做法：在 `streamlit_app/` 目錄新增頁面或元件，將此範例擴充成完整 UI。"
 )

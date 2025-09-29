@@ -42,7 +42,7 @@ uv run python main.py
 make streamlit
 
 # 或直接使用 uv / streamlit 指令
-FASTAPI_BASE_URL=http://127.0.0.1:8000 uv run streamlit run frontend/main.py
+FASTAPI_BASE_URL=http://127.0.0.1:8000 uv run streamlit run streamlit_app/main.py
 ```
 
 Streamlit 預設於 http://localhost:8501 提供 UI，可透過側邊欄調整後端位址。
@@ -62,20 +62,40 @@ Streamlit 預設於 http://localhost:8501 提供 UI，可透過側邊欄調整�
 
 ## 前端（Streamlit）
 
-- 入口檔案：`frontend/main.py`，提供基本健康檢查與即席 API 測試工具。
-- 設定檔：`frontend/.streamlit/config.toml`，預設監聽 `0.0.0.0:8501` 並採用深色主題。
+- 入口檔案：`streamlit_app/main.py`，提供基本健康檢查與即席 API 測試工具。
+- 設定檔：`streamlit_app/.streamlit/config.toml`，預設監聽 `0.0.0.0:8501` 並採用深色主題。
 - 環境參數：使用 `FASTAPI_BASE_URL` 指定後端 API（預設 `http://127.0.0.1:8000`）。
 - 開發指令：`make streamlit` 會以 uv 執行 `streamlit run` 並自動帶入後端位址。
-- 擴充方式：依 Streamlit 約定可新增 `frontend/pages/` 以拆分多頁面。
+- 擴充方式：依 Streamlit 約定可新增 `streamlit_app/pages/` 以拆分多頁面。
 
 ## Labs 實驗區
 
 - Lab 目錄集中於 `labs/`，僅存放尚未產品化的研究、PoC 與數據。
-- 使用 `make lab name=ocr title="OCR Pipeline"` 自動建立實驗骨架與對應的 Streamlit 頁面（於 `ui/streamlit/pages/`）。
+- 使用 `make lab name=ocr title="OCR Pipeline"` 自動建立實驗骨架與對應的 Streamlit 頁面（於 `labs_portal/pages/`）。
 - 產生 Spike 腳本：`make lab-spike name=ocr title="Test pytesseract"`，會在 `labs/ocr/spikes/` 下建立模板。
 - Spike 檔案是一次性驗證腳本，用於快速試驗概念；完成後可將穩定做法萃取到 `prototype/`。
 - 啟動 Labs 專用 UI：`make labs-ui`（預設埠 8502），從 Streamlit 多頁模式瀏覽所有 Lab 頁面。
 - 實驗額外依賴請使用 `uv sync -E labs-ocr` 等 optional dependency groups 安裝。
+
+### 如何啟動 Labs Portal
+
+1. 啟動後端（選擇其一）：`make dev` 或 `make run`。
+2. 啟動 Labs Portal：`make labs-ui`。
+3. 於瀏覽器開啟 http://localhost:8502 ，在左側頁籤切換各 Lab 的研究頁面。
+
+### 如何建立新的 Lab
+
+1. 產生骨架：`make lab name=<lab> title="<Title>"`（例如 `make lab name=ocr title="OCR Pipeline"`）。
+   - 會建立 `labs/<lab>/` 目錄與 `labs_portal/pages/90_Labs_<TITLE>.py` 頁面。
+2. 若需要臨時驗證腳本，執行 `make lab-spike name=<lab> title="My Spike"` 產生模板。
+3. 安裝所需依賴：`uv sync -E <lab-optional-group>`（例如 `uv sync -E labs-ocr`）。
+
+### 如何為 Lab 撰寫文件
+
+- 使用 `labs/<lab>/docs/` 紀錄研究筆記與假設；維持 Markdown 檔案一事一檔。
+- 實驗數據或量測結果放在 `docs/system-design/benchmarks/`，以 JSON/YAML/Markdown 紀錄指標與結論。
+- 若研究涉及產品化決策，撰寫或更新對應 RFC（`docs/rfc/`）與 SPEC 草稿（`docs/specs/`）。
+- 在 PR 中連結上述文件，確保評審可追蹤實驗過程與成果。
 
 ## 開發指南
 
@@ -249,12 +269,12 @@ app/
 │     ├─ docs/                    # 觀察筆記與風險整理
 │     └─ data/                    # 小型示例資料（.gitkeep）
 │
-├─ ui/streamlit/                  # Labs 專用 Streamlit 入口
+├─ labs_portal/                    # Labs 專用 Streamlit 入口
 │  ├─ main.py                     # Labs 多頁入口（make labs-ui）
 │  └─ pages/
 │     └─ 90_Labs_OCR.py          # OCR Lab 的實驗頁（可擴充）
 │
-├─ frontend/                       # Streamlit 前端入口與設定
+├─ streamlit_app/                  # Streamlit 前端入口與設定
 │  ├─ main.py                      # Streamlit UI（健康檢查 + API 測試）
 │  └─ .streamlit/
 │     └─ config.toml               # Streamlit 伺服器與主題設定

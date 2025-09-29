@@ -7,16 +7,16 @@ mkdir -p app/shared
 mkdir -p app/api/v1
 mkdir -p app/modules/auth/domain
 mkdir -p app/modules/auth/infra
-mkdir -p frontend/.streamlit
+mkdir -p streamlit_app/.streamlit
 mkdir -p labs
-mkdir -p ui/streamlit/pages
+mkdir -p labs_portal/pages
 
 # Create main application files
 touch app/main.py
 touch app/api/v1/router.py
 touch app/api/v1/auth.py
-if [ ! -f frontend/main.py ]; then
-cat > frontend/main.py <<'EOF'
+if [ ! -f streamlit_app/main.py ]; then
+cat > streamlit_app/main.py <<'EOF'
 import streamlit as st
 
 
@@ -50,8 +50,8 @@ touch app/modules/auth/domain/ports.py
 touch app/modules/auth/infra/orm.py
 touch app/modules/auth/infra/repositories.py
 touch app/modules/auth/infra/token_jwt.py
-if [ ! -f frontend/.streamlit/config.toml ]; then
-cat > frontend/.streamlit/config.toml <<'EOF'
+if [ ! -f streamlit_app/.streamlit/config.toml ]; then
+cat > streamlit_app/.streamlit/config.toml <<'EOF'
 [server]
 headless = true
 runOnSave = true
@@ -72,8 +72,8 @@ cat > labs/README.md <<'EOF'
 EOF
 fi
 
-if [ ! -f ui/streamlit/main.py ]; then
-cat > ui/streamlit/main.py <<'EOF'
+if [ ! -f labs_portal/main.py ]; then
+cat > labs_portal/main.py <<'EOF'
 import streamlit as st
 
 st.set_page_config(page_title="Labs Portal")

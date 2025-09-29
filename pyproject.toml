@@ -22,3 +22,10 @@ labs-ocr = [
     "pillow>=10.4.0",
     "pandas>=2.2.0",
 ]
+
+[dependency-groups]
+labs-cognee = [
+    "cognee>=0.3.4",
+    "pymupdf>=1.26.4",
+]
+

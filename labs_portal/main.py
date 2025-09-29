@@ -16,7 +16,7 @@ st.markdown(
     textwrap.dedent(
         """
         - 若列表中沒有你的 Lab，可執行 `make lab name=<lab> title="..."` 自動建立。
-        - Streamlit 會自動載入 `ui/streamlit/pages/*.py` 作為分頁。
+        - Streamlit 會自動載入 `labs_portal/pages/*.py` 作為分頁。
         - Prototype 相關函式放在 `labs/<lab>/prototype/`，並由對應分頁呼叫。
         """
     )
